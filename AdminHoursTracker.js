@@ -194,14 +194,14 @@ function compareVersions(v1, v2) {
 function showAbout() {
   var ui = SpreadsheetApp.getUi();
   var message = 
-    'DMH Admin Hours Tracker\n' +
+    'Admin Hours Tracker for BattleMetrics\n' +
     'Version: ' + VERSION + '\n\n' +
     'Features:\n' +
     '• Rotating hourly updates (no timeouts)\n' +
-    '• Dynamic search with highlighting\n' +
     '• Real-time sync from source data\n' +
     '• Quota tracking & management\n' +
-    '• Last update timestamps\n\n' +
+    '• Last update timestamps\n' +
+    '• Automatic version checking\n\n' +
     'GitHub: ' + GITHUB_DOWNLOAD_URL;
   
   ui.alert('About Admin Tracker', message, ui.ButtonSet.OK);
