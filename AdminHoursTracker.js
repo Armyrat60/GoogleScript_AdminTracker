@@ -17,6 +17,8 @@
  * Admin Hours Tracker for BattleMetrics
  * 
  * VERSION: 1.0.0
+ * Author: ArmyRat60
+ * GitHub: https://github.com/Armyrat60/GoogleScript_AdminTracker
  * 
  * A Google Apps Script for tracking admin activity hours on BattleMetrics servers.
  * Works with Squad, Rust, ARK, and any game using BattleMetrics.
@@ -30,18 +32,17 @@
  * - GitHub version checking
  * 
  * Setup Guide: See README.md
- * GitHub: https://github.com/YOUR_USERNAME/admin-hours-tracker
+ * GitHub: https://github.com/Armyrat60/GoogleScript_AdminTracker
  * 
  * IMPORTANT: Before using, you must:
- * 1. Replace YOUR_SERVER_ID_HERE with your BattleMetrics server ID
+ * 1. Set BM_SERVER_ID to your BattleMetrics server ID
  * 2. Add your BattleMetrics API token to Script Properties
- * 3. Update GITHUB URLs with your repository
- * 4. Customize team names/colors in CONFIG section
+ * 3. Customize team names/colors in CONFIG section
  ***********************/
 
 const VERSION = '1.0.0';
-const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/admin-hours-tracker/main/version.json';
-const GITHUB_DOWNLOAD_URL = 'https://github.com/YOUR_USERNAME/admin-hours-tracker';
+const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/Armyrat60/GoogleScript_AdminTracker/main/version.json';
+const GITHUB_DOWNLOAD_URL = 'https://github.com/Armyrat60/GoogleScript_AdminTracker';
 
 const CONFIG = {
   // ========== REQUIRED: Update These Settings ==========

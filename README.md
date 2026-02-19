@@ -87,14 +87,15 @@ Before starting, you need:
 
 Open the code and find the CONFIG section at the top. Change these values:
 
-#### A. Update GitHub URLs (lines 13-14)
-```javascript
-const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/admin-hours-tracker/main/version.json';
-const GITHUB_DOWNLOAD_URL = 'https://github.com/YOUR_USERNAME/admin-hours-tracker';
-```
-Replace `YOUR_USERNAME` with your GitHub username (or skip if not using GitHub)
+#### A. GitHub URLs (Already Set!)
+The GitHub URLs are already configured to use this repository. No changes needed!
 
-#### B. Set Your Server ID (line 24)
+```javascript
+const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/Armyrat60/GoogleScript_AdminTracker/main/version.json';
+const GITHUB_DOWNLOAD_URL = 'https://github.com/Armyrat60/GoogleScript_AdminTracker';
+```
+
+#### B. Set Your Server ID (line 26)
 ```javascript
 BM_SERVER_ID: 'YOUR_SERVER_ID_HERE',
 ```
@@ -109,7 +110,7 @@ Change to:
 BM_SERVER_ID: '12345678',
 ```
 
-#### C. Verify Column Numbers (lines 35-38)
+#### C. Verify Column Numbers (lines 37-40)
 Make sure these match your sheet layout:
 ```javascript
 SOURCE_COL_NAME: 2,      // Column B - Names
@@ -117,7 +118,7 @@ SOURCE_COL_TEAM: 3,      // Column C - Teams
 SOURCE_COL_STEAM_ID: 6,  // Column F - Steam IDs
 ```
 
-#### D. Customize Team Colors (lines 64-71)
+#### D. Customize Team Colors (lines 66-73)
 Add your team names and colors:
 ```javascript
 TEAM_COLORS: {
@@ -348,12 +349,14 @@ If this helped your server, consider:
 
 ## 📞 Getting Help
 
-- **Issues:** [GitHub Issues](https://github.com/YOUR_USERNAME/admin-hours-tracker/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/YOUR_USERNAME/admin-hours-tracker/discussions)
+- **Issues:** [GitHub Issues](https://github.com/Armyrat60/GoogleScript_AdminTracker/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/Armyrat60/GoogleScript_AdminTracker/discussions)
 
 ---
 
 **Made with ❤️ for server admins everywhere**
+
+**Developed by ArmyRat60**
 
 **Version:** 1.0.0
 
@@ -566,21 +569,45 @@ dmh-admin-tracker/
 
 ---
 
-## Support
+## 📞 Getting Help
 
-- **Issues:** Open an issue on GitHub
-- **Questions:** Check Discussions tab
-- **Updates:** Watch repository for notifications
+- **Issues:** [GitHub Issues](https://github.com/Armyrat60/GoogleScript_AdminTracker/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/Armyrat60/GoogleScript_AdminTracker/discussions)
 
 ---
 
-## License
+## 🤝 Contributing
+
+Found a bug? Have a feature request?
+
+1. Open an issue on GitHub
+2. Or submit a pull request
+
+---
+
+## 📜 License
 
 MIT License - Feel free to modify and use for your server!
 
 ---
 
-## Credits
+## 👤 Credits
 
-Created for Dead Man's Hand Gaming Squad Server  
-Developed with ❤️ by Ryan
+**Developed by:** ArmyRat60  
+**GitHub:** [@Armyrat60](https://github.com/Armyrat60)
+
+---
+
+## ⭐ Support
+
+If this helped your server, consider:
+- ⭐ Starring this repo
+- 🐛 Reporting bugs
+- 💡 Suggesting features
+- 📖 Improving documentation
+
+---
+
+**Made with ❤️ for server admins everywhere**
+
+**Developed by ArmyRat60**

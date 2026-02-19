@@ -1,6 +1,9 @@
 /***********************
  * CONFIGURATION EXAMPLE
  * 
+ * Author: ArmyRat60
+ * GitHub: https://github.com/Armyrat60/GoogleScript_AdminTracker
+ * 
  * This file shows all the settings you need to configure
  * in AdminHoursTracker.js before first use.
  * 
@@ -10,11 +13,11 @@
 
 // ========== STEP 1: UPDATE GITHUB URLS ==========
 
-const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/admin-hours-tracker/main/version.json';
-const GITHUB_DOWNLOAD_URL = 'https://github.com/YOUR_USERNAME/admin-hours-tracker';
+const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/Armyrat60/GoogleScript_AdminTracker/main/version.json';
+const GITHUB_DOWNLOAD_URL = 'https://github.com/Armyrat60/GoogleScript_AdminTracker';
 
-// Replace YOUR_USERNAME with your GitHub username
-// Example: 'https://raw.githubusercontent.com/john-doe/admin-hours-tracker/main/version.json'
+// These are already set correctly! You can leave them as-is.
+// The update checker will pull from this repository.
 
 
 // ========== STEP 2: SET YOUR BATTLEMETRICS SERVER ID ==========
@@ -106,7 +109,7 @@ COLOR_RANGES: [
 /*
  * Before running the script, verify you've completed:
  * 
- * ✅ Replaced YOUR_USERNAME in GitHub URLs
+ * ✅ GitHub URLs are already configured (nothing to change!)
  * ✅ Set BM_SERVER_ID to your server ID
  * ✅ Added BATTLEMETRICS_API_KEY to Script Properties
  * ✅ Created "Server Admin Team" sheet with columns B, C, F
