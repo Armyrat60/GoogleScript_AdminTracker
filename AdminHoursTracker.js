@@ -25,7 +25,6 @@
  * 
  * Features:
  * - Automatic hourly updates with rotating schedule (prevents timeouts)
- * - Dynamic search with instant highlighting
  * - Real-time sync from source data
  * - Color-coded performance rankings
  * - Last update timestamps
@@ -299,7 +298,7 @@ function onOpen() {
     .addItem('🚀 Complete Initial Setup', 'SETUP_CompleteInitialSetup')
     .addItem('🔄 Manual Full Update (All)', 'manualFullUpdate')
     .addSeparator()
-    .addItem('🔍 Clear Search', 'clearSearch')
+    // .addItem('🔍 Clear Search', 'clearSearch')  // Hidden - feature in development
     .addItem('📊 Check Quota Status', 'checkQuotaStatus')
     .addItem('🧪 Test API Connection', 'testDirectAPICall')
     .addToUi();
