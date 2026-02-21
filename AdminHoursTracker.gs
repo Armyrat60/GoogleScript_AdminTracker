@@ -91,16 +91,16 @@ function checkForUpdates() {
         'Current: v' + VERSION + '\n' +
         'Latest: v' + latestVersion + '\n\n' +
         'What\'s new:\n' + releaseNotes + '\n\n' +
-        'Click OK to open download page.';
+        'Download from:\n' + GITHUB_DOWNLOAD_URL;
       
-      var result = ui.alert('Update Available', message, ui.ButtonSet.OK_CANCEL);
+      ui.alert('Update Available', message, ui.ButtonSet.OK);
       
-      if (result === ui.Button.OK) {
-        var htmlOutput = HtmlService.createHtmlOutput(
-          '<script>window.open("' + GITHUB_DOWNLOAD_URL + '", "_blank");google.script.host.close();</script>'
-        );
-        SpreadsheetApp.getUi().showModalDialog(htmlOutput, 'Opening GitHub...');
-      }
+      // Show toast with clickable link instruction
+      SpreadsheetApp.getActiveSpreadsheet().toast(
+        'Copy the GitHub URL from the alert to download the update.',
+        'Update Available',
+        5
+      );
     } else {
       SpreadsheetApp.getActiveSpreadsheet().toast(
         'You have the latest version! (v' + VERSION + ')',
@@ -135,12 +135,13 @@ function showAbout() {
     'Admin Hours Tracker for BattleMetrics\n' +
     'Version: ' + VERSION + '\n\n' +
     'Features:\n' +
-    '• Setup Wizard for easy configuration\n' +
-    '• Rotating hourly updates (no timeouts)\n' +
-    '• Real-time sync from source data\n' +
-    '• Automatic trigger creation\n' +
-    '• Last update timestamps\n' +
-    '• Automatic version checking\n\n' +
+    '• First Time Setup - Single clear path\n' +
+    '• Formula-based AUTO columns - Always in sync\n' +
+    '• Enhanced onEdit - Fetches ALL data\n' +
+    '• Smart Trigger Manager - Protects other scripts\n' +
+    '• Debug Tools - 7 diagnostic tools\n' +
+    '• Sequential daily updates - Runs at 2 AM\n' +
+    '• Migration tool - Upgrade from v3.x\n\n' +
     'GitHub: ' + GITHUB_DOWNLOAD_URL;
   
   ui.alert('About Admin Tracker', message, ui.ButtonSet.OK);
