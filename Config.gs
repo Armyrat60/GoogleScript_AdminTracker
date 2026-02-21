@@ -453,94 +453,110 @@ function setupWizard() {
       Logger.log('✓ Saved EOSID column: ' + columnDefs.eosId.col);
     }
     
-    // ========== DATA POPULATION CHOICE ==========
-    var popupMsg = '🎉 Configuration Saved!\n\n';
-    popupMsg += '✅ Server ID saved\n';
-    popupMsg += '✅ API Token saved\n';
-    popupMsg += '✅ All columns configured\n\n';
-    popupMsg += '📊 Next: Populate Your Data\n\n';
-    popupMsg += 'Choose how to proceed:\n\n';
-    popupMsg += '👉 QUICK SETUP (Recommended)\n';
-    popupMsg += '   • Time: ~2 minutes\n';
-    popupMsg += '   • Populates: BM IDs, Names, EOSID, Dates\n';
-    popupMsg += '   • Hours: Update automatically via triggers\n';
-    popupMsg += '   • Rankings: Created by hourly trigger\n\n';
-    popupMsg += '👉 FULL SETUP\n';
-    popupMsg += '   • Time: ~8 minutes (may timeout!)\n';
-    popupMsg += '   • Populates: Everything immediately\n';
-    popupMsg += '   • Only for servers with < 30 players\n\n';
-    popupMsg += '👉 MANUAL\n';
-    popupMsg += '   • Skip for now\n';
-    popupMsg += '   • You\'ll populate data manually later\n\n';
-    popupMsg += 'What would you like to do?';
-    
-    var choice = ui.alert(
-      'Choose Setup Type',
-      popupMsg,
-      ui.ButtonSet.YES_NO_CANCEL
+    // ========== DATA POPULATION ==========
+    var populate = ui.alert(
+      'Setup Complete!',
+      '✅ Configuration saved successfully!\n\n' +
+      '📊 Would you like to populate data now?\n\n' +
+      'This will:\n' +
+      '• Sync admin data to Rankings sheet\n' +
+      '• Populate BM IDs and player info\n' +
+      '• Create AUTO column formulas\n' +
+      '• Create automation triggers\n\n' +
+      'Hours will be updated by daily trigger at 2 AM,\n' +
+      'or you can run UPDATE → Update All Data manually.\n\n' +
+      'Populate data now?\n' +
+      '(Takes 2-3 minutes for ~20 players)',
+      ui.ButtonSet.YES_NO
     );
     
-    if (choice === ui.Button.YES) {
-      // Quick Setup
-      Logger.log('User chose: Quick Setup');
-      try {
-        quickSetupData();
-      } catch (e) {
-        ui.alert(
-          'Quick Setup Error',
-          'An error occurred during Quick Setup:\n\n' + e + '\n\n' +
-          'You can try again from Menu → Complete Initial Setup.',
-          ui.ButtonSet.OK
-        );
-      }
-    } else if (choice === ui.Button.NO) {
-      // Full Setup
-      Logger.log('User chose: Full Setup');
-      var warning = ui.alert(
-        'Full Setup Warning',
-        'Full Setup may timeout for servers with 50+ players.\n\n' +
-        'This will:\n' +
-        '• Populate ALL data immediately\n' +
-        '• Take ~8 minutes\n' +
-        '• May hit 6-minute execution limit\n\n' +
-        'Continue with Full Setup?',
-        ui.ButtonSet.YES_NO
-      );
+    if (populate === ui.Button.YES) {
+      Logger.log('User chose to populate data');
       
-      if (warning === ui.Button.YES) {
-        try {
-          SETUP_CompleteInitialSetup();
-        } catch (e) {
-          ui.alert(
-            'Full Setup Error',
-            'An error occurred:\n\n' + e + '\n\n' +
-            'Try Quick Setup instead, or populate manually.',
-            ui.ButtonSet.OK
-          );
-        }
-      } else {
+      try {
         ui.alert(
-          'Setup Saved',
-          'Configuration is saved!\n\n' +
-          'Run "Quick Setup" or "Complete Initial Setup"\n' +
-          'from the menu when ready.',
+          'Starting Data Population',
+          'Populating data...\n\n' +
+          'This may take a few minutes.\n' +
+          'You can continue working while this runs.',
+          ui.ButtonSet.OK
+        );
+        
+        // Sync admin data
+        Logger.log('Step 1: Syncing admin data...');
+        STEP1_SyncAdminData();
+        
+        // Populate BM IDs
+        Logger.log('Step 2: Populating BM IDs...');
+        STEP2_PopulateBMIds();
+        
+        // Create AUTO column formulas
+        Logger.log('Step 3: Creating AUTO column formulas...');
+        createAutoColumnFormulas();
+        
+        // Create triggers
+        Logger.log('Step 4: Creating triggers...');
+        try {
+          createDailyTrigger();
+        } catch (e) {
+          Logger.log('Daily trigger may already exist: ' + e);
+        }
+        
+        try {
+          createOnChangeTrigger();
+        } catch (e) {
+          Logger.log('onChange trigger may already exist: ' + e);
+        }
+        
+        try {
+          createOnEditTrigger();
+        } catch (e) {
+          Logger.log('onEdit trigger may already exist: ' + e);
+        }
+        
+        Logger.log('✓ Data population complete');
+        
+        ui.alert(
+          '🎉 Setup Complete!',
+          'Your tracker is ready!\n\n' +
+          '✅ Data synced to Rankings sheet\n' +
+          '✅ BM IDs populated\n' +
+          '✅ AUTO column formulas created\n' +
+          '✅ Triggers created\n\n' +
+          '📝 What happens next:\n' +
+          '• Type Steam IDs → Auto-populates ALL fields\n' +
+          '• Daily updates at 2 AM (all hours)\n' +
+          '• Or run UPDATE → Update All Data anytime\n\n' +
+          'You\'re all set! 🚀',
+          ui.ButtonSet.OK
+        );
+        
+      } catch (error) {
+        Logger.log('ERROR during data population: ' + error);
+        ui.alert(
+          'Population Error',
+          'An error occurred:\n\n' + error + '\n\n' +
+          'Your configuration is saved!\n\n' +
+          'You can manually run:\n' +
+          '• UPDATE → Sync Admin Data\n' +
+          '• UPDATE → Populate BM IDs\n' +
+          '• TRIGGERS → Manage Triggers',
           ui.ButtonSet.OK
         );
       }
+      
     } else {
-      // Manual
-      Logger.log('User chose: Manual setup');
+      // User chose not to populate now
+      Logger.log('User chose to populate later');
       ui.alert(
         'Configuration Saved!',
         'Your settings are saved!\n\n' +
-        'To populate data manually:\n\n' +
-        '1. Menu → Setup & Configuration → Quick Setup\n' +
-        '   (or Complete Initial Setup)\n\n' +
-        '2. Menu → Manual Updates → Sync Admin Data\n\n' +
-        '3. Menu → Manual Updates → Populate BM IDs\n\n' +
-        '4. Menu → Manual Updates → Update Hours\n\n' +
-        'Don\'t forget to create triggers:\n' +
-        'Menu → Setup & Configuration → Quick Fix - Auto-Sync Triggers',
+        '📝 To populate data later:\n\n' +
+        '1. UPDATE → Sync Admin Data\n' +
+        '2. UPDATE → Populate BM IDs\n' +
+        '3. TRIGGERS → Manage Triggers (create triggers)\n\n' +
+        'Or just run:\n' +
+        'SETUP → First Time Setup again',
         ui.ButtonSet.OK
       );
     }
@@ -577,6 +593,42 @@ function columnLetter(col) {
     col = (col - temp - 1) / 26;
   }
   return letter;
+}
+
+/**
+ * Validate Steam ID format
+ * Returns: { valid: true/false, error: "error message" }
+ */
+function validateSteamId(steamId) {
+  // Convert to string and trim
+  var id = String(steamId).trim();
+  
+  // Check if empty
+  if (!id || id === '') {
+    return { valid: false, error: 'Empty Steam ID' };
+  }
+  
+  // Check for scientific notation (7.65612E+18)
+  if (id.indexOf('E+') > -1 || id.indexOf('e+') > -1 || id.indexOf('E-') > -1 || id.indexOf('e-') > -1) {
+    return { valid: false, error: 'Scientific notation - reformat column as TEXT' };
+  }
+  
+  // Check if numeric
+  if (isNaN(id)) {
+    return { valid: false, error: 'Not a valid number' };
+  }
+  
+  // Steam 64-bit IDs are 17 digits and start with 7656119
+  if (id.length !== 17) {
+    return { valid: false, error: 'Steam ID must be 17 digits (got ' + id.length + ')' };
+  }
+  
+  // Should start with 7656119
+  if (!id.startsWith('7656119')) {
+    return { valid: false, error: 'Steam ID should start with 7656119' };
+  }
+  
+  return { valid: true, error: null };
 }
 
 // ========== AUTO COLUMN FORMULA MANAGEMENT ==========
@@ -2706,6 +2758,12 @@ function STEP1_SyncAdminData() {
     rankingsSheet.getRange(getConfig("DATA_FIRST_ROW"), getConfig("DATA_COL_TEAM"), numRows, 1).setValues(teams);
     rankingsSheet.getRange(getConfig("DATA_FIRST_ROW"), getConfig("DATA_COL_BM_ID"), numRows, 1).setValues(bmIds);
     
+    // ⚠️ CRITICAL: Format Steam ID column as TEXT to prevent scientific notation
+    Logger.log('🔧 Formatting Steam ID column as TEXT...');
+    var steamIdRange = rankingsSheet.getRange(getConfig("DATA_FIRST_ROW"), getConfig("DATA_COL_STEAM_ID"), numRows, 1);
+    steamIdRange.setNumberFormat('@'); // @ = Text format
+    Logger.log('✓ Steam ID column formatted as TEXT');
+    
     Logger.log('✓ Data written successfully');
     
     // Set headers for ALL columns (AA-AJ)
@@ -2784,12 +2842,25 @@ function STEP2_PopulateBMIds() {
           continue;
         }
         
+        // ⚠️ VALIDATE STEAM ID BEFORE API CALL
+        var validation = validateSteamId(steamId);
+        if (!validation.valid) {
+          Logger.log('Row ' + rowNum + ' | ❌ INVALID Steam ID: ' + steamId + ' - ' + validation.error);
+          bmIdOutput.push(['ERROR: ' + validation.error]);
+          nameOutput.push(['']);
+          lastSeenOutput.push(['']);
+          firstSeenOutput.push(['']);
+          eosIdOutput.push(['']);
+          stats.errors++;
+          continue; // Skip to next row
+        }
+        
         if (!canMakeApiCall_()) {
           Logger.log('⚠ Quota limit reached, stopping');
           break;
         }
         
-        Logger.log('Row ' + rowNum + ' | Steam: ' + steamId);
+        Logger.log('Row ' + rowNum + ' | Steam: ' + steamId + ' ✓ Valid');
         var result = getBMIdFromSteamId_(steamId, token);
         Utilities.sleep(250);
         
@@ -3648,7 +3719,32 @@ function handleSourceDataChange_(sheet, row, col) {
         return;
       }
       
+      // ⚠️ VALIDATE STEAM ID BEFORE API CALLS
+      var validation = validateSteamId(steamId);
+      if (!validation.valid) {
+        Logger.log('  ❌ INVALID Steam ID: ' + validation.error);
+        rankingsSheet.getRange(rankingsRow, getConfig("DATA_COL_BM_ID")).setValue('ERROR: ' + validation.error);
+        SpreadsheetApp.getActiveSpreadsheet().toast(
+          'Invalid Steam ID: ' + validation.error + '\n\nPlease fix and try again.',
+          'Steam ID Error',
+          5
+        );
+        return;
+      }
+      
+      Logger.log('  ✓ Steam ID validated: ' + steamId);
+      
+      // Format Steam ID cell as TEXT to prevent scientific notation
+      sheet.getRange(row, getConfig("SOURCE_COL_STEAM_ID")).setNumberFormat('@');
+      rankingsSheet.getRange(rankingsRow, getConfig("DATA_COL_STEAM_ID")).setNumberFormat('@');
+      
       try {
+        SpreadsheetApp.getActiveSpreadsheet().toast(
+          'Fetching ALL data for ' + steamId + '...\n\nThis takes ~10 seconds (4 API calls)',
+          'Updating Player Data',
+          -1
+        );
+        
         var token = getScriptProperty_(getConfig("BM_TOKEN_KEY"));
         var serverId = getConfig("BM_SERVER_ID");
         
